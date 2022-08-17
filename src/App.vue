@@ -1,5 +1,5 @@
 <template>
-  <div>App.vue</div>
+  <div></div>
   <router-view />
   <tabBar />
 
@@ -9,4 +9,5 @@
 import tabBar from "./components/tab-bar/tab-bar.vue";
 </script>
  
-<style scoped></style>
+<style scoped>
+</style>

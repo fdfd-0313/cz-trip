@@ -1,4 +1,7 @@
+:root{
+  --primary-color: #38B0DE;
+  /* --primary-active-color: #007FFF; */
+}
 body {
   font-size: 14px;
-  font-family: 'Courier New', Courier, monospace;
 }

@@ -1,0 +1,25 @@
+<template>
+  <div class="nav-bar">
+    <span class="text">凤城旅游</span>
+  </div>
+</template>
+
+<script setup>
+
+</script>
+ 
+<style lang="less" scoped>
+.nav-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 46px;
+  border-bottom: 1px solid #f2f2f2;
+
+  .text {
+    font-size: 16px;
+    color: var(--primary-color);
+    font-weight: 600;
+  }
+}
+</style>
