@@ -19,14 +19,14 @@
       <div class="start">
         <div class="date">
           <span class="tip">入住</span>
-          <span class="time">{{startDate}}</span>
+          <span class="time">{{startDateStr}}</span>
         </div>
       </div>
       <div class="stay">共{{stayCount}}晚</div>
       <div class="end">
         <div class="date">
           <span class="tip">入住</span>
-          <span class="time">{{endDate}}</span>
+          <span class="time">{{endDateStr}}</span>
         </div>
       </div>
     </div>
@@ -57,17 +57,25 @@
         >{{item.tagText.text}}</div>
       </template>
     </div>
+    <!-- 搜索按钮 -->
+    <div class="section search-btn">
+      <div
+        class="btn"
+        @click="searchBtnClick"
+      >开始搜索</div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useRouter } from 'vue-router';
 import { useCityStore } from '@/stores/modules/city';
 import { storeToRefs } from "pinia";
 
 import { formatMonthDay, getDiffDays } from "@/utils/format-time";
 import { useHomeStore } from "@/stores/modules/home"
+import { useMainStore } from "@/stores/modules/main";
 
 const router = useRouter()
 
@@ -80,13 +88,12 @@ const cityStore = useCityStore()
 const { currentCity } = storeToRefs(cityStore)
 
 // 日期范围
-const nowDate = new Date() //当前日期
-const newDate = new Date() // 新日期
+const mainStore = useMainStore()
+const { startDate, endDate } = storeToRefs(mainStore)
 
-newDate.setDate(newDate.getDate() + 1)
-const startDate = ref(formatMonthDay(nowDate))
-const endDate = ref(formatMonthDay(newDate))
-const stayCount = ref(getDiffDays(nowDate, newDate))
+const startDateStr = computed(() => formatMonthDay(startDate.value))
+const endDateStr = computed(() => formatMonthDay(endDate.value))
+const stayCount = ref(getDiffDays(startDate.value, endDate.value))
 
 const showCalendar = ref(false)
 const onConfirm = (value) => {
@@ -103,6 +110,17 @@ const onConfirm = (value) => {
 const homeStore = useHomeStore()
 const { hotSuggests } = storeToRefs(homeStore)
 
+// 开始搜索
+const searchBtnClick = () => {
+  router.push({
+    path: "/search",
+    query: {
+      startDate: startDate.value,
+      endDate: endDate.value,
+      currentCity: currentCity.value.cityName
+    }
+  })
+}
 </script>
  
 <style lang="less" scoped>
@@ -185,12 +203,27 @@ const { hotSuggests } = storeToRefs(homeStore)
 }
 .hot-suggests {
   margin: 10px 0;
+  height: auto;
   .item {
     padding: 4px, 8px;
     margin: 4px;
     border-radius: 14px;
     font-size: 14px;
     // line-height: 1;
+  }
+}
+.search-btn {
+  .btn {
+    width: 400px;
+    height: 38px;
+    max-height: 50px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 38px;
+    text-align: center;
+    border-radius: 20px;
+    color: #fff;
+    background-image: var(--theme-linear-gradient);
   }
 }
 </style>
