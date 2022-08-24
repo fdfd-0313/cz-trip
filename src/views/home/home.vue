@@ -17,20 +17,26 @@
 </template>
 
 <script setup>
+// 组件引入
 import navBar from "./cpns/home-nav-bar.vue";
 import homeSearch from "./cpns/home-search-box.vue"
 import Categories from "./cpns/home-categories.vue"
 import Content from "./cpns/home-content.vue";
 import SearchBar from "@/components/search-bar/search-bar.vue"
+import Loading from "@/components/loading/loading.vue"
 
-import { useHomeStore } from "@/stores/modules/home";
-import useScroll from "@/hooks/useScroll.js";
 import { computed, watch } from "vue";
+import { useHomeStore } from "@/stores/modules/home";
+import { useMainStore } from "@/stores/modules/main"
+import useScroll from "@/hooks/useScroll.js";
+import { storeToRefs } from "pinia";
+
 
 const homeStore = useHomeStore()
 homeStore.fetchHotSuggestData()
 homeStore.fetchCategoriesData()
 homeStore.fetchHouselistData()
+
 
 // 底部滚动
 const { isReachBottom, scrollTop } = useScroll()
