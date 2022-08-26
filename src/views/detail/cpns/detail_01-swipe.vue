@@ -43,7 +43,7 @@
 const props = defineProps({
   swipeData: {
     type: Array,
-    default: () => { }
+    default: () => []
   }
 })
 const swipeGroup = {}

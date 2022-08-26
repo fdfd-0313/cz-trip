@@ -12,15 +12,18 @@
       class="main"
       v-if="mainPart"
     >
-      <DeatailSwipe :swipe-data="mainPart.topModule.housePicture.housePics"></DeatailSwipe>
-      <DetailInfos></DetailInfos>
+      <DeatailSwipe :swipe-data="mainPart.topModule.housePicture.housePics" />
+      <DetailInfos :top-infos="mainPart.topModule" />
+      <DetailFacility :house-facility="mainPart.dynamicModule.facilityModule.houseFacility" />
+
     </div>
   </div>
 </template>
 
 <script setup>
 import DeatailSwipe from "./cpns/detail_01-swipe.vue"
-import DetailInfos from "./cpns/detail_02-infos.vue";;
+import DetailInfos from "./cpns/detail_02-infos.vue"
+import DetailFacility from "./cpns/detail_03-facility.vue"
 
 import { computed, ref } from "@vue/runtime-core";
 import { useRoute, useRouter, } from "vue-router";
