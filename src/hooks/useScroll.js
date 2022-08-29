@@ -1,6 +1,8 @@
 import { onMounted, onUnmounted, ref } from "vue"
 import { throttle } from "underscore"
-export default function useScroll() {
+export default function useScroll(elRef) {
+  let el = window
+
   // 用变量判断是否到达底部
   const isReachBottom = ref(false)
 
@@ -11,9 +13,18 @@ export default function useScroll() {
 
   // 节流处理
   const scrollListenerHandler = throttle(() => {
-    clientHeight.value = document.documentElement.clientHeight
-    scrollTop.value = document.documentElement.scrollTop
-    scrollHeight.value = document.documentElement.scrollHeight
+    if (el === window) {
+      // console.log("正在滚动222")
+      clientHeight.value = document.documentElement.clientHeight
+      scrollTop.value = document.documentElement.scrollTop
+      scrollHeight.value = document.documentElement.scrollHeight
+    } else {
+      // console.log("正在滚动111")
+      clientHeight.value = el.clientHeight
+      scrollTop.value = el.scrollTop
+      scrollHeight.value = el.scrollHeight
+    }
+
     if (clientHeight.value + scrollTop.value >= scrollHeight.value) {
       // 已经滚到底部了
       console.log("滚动到底部了")
@@ -21,11 +32,14 @@ export default function useScroll() {
     }
   }, 100)
   onMounted(() => {
-    window.addEventListener("scroll", scrollListenerHandler)
+    // console.log(elRef)
+    if (elRef) el = elRef.value
+    // console.log(el)
+    el.addEventListener("scroll", scrollListenerHandler)
   })
 
   onUnmounted(() => {
-    window.removeEventListener("scroll", scrollListenerHandler)
+    el.removeEventListener("scroll", scrollListenerHandler)
   })
   return {
     isReachBottom,

@@ -89,7 +89,7 @@ const props = defineProps({
           font-size: 48px;
           font-weight: 600;
           position: relative;
-          z-index: 9;
+          z-index: 6;
         }
         .line {
           width: 65px;
